@@ -9,6 +9,7 @@ Hyein Kim, Hoe-Bin Jeong, Hye-Young Jung, Taesung Park, Mira Park, Cluster-based
 
 ## Example 
 Try _run_example.R_ to get a quick start
+_example.csv_ contains data used for simulation study in the paper, which is the case of following bivariate normal distribution, correlation=0.5, MAF=0.2, Heritability=0.1
 
 ## Usage
 In R:
