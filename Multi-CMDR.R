@@ -2,7 +2,7 @@
 #### -------------------------------------- main function -------------------------------------- ####
 #####################################################################################################
 
-MCMDR <- function(phes, snp.mat, K=2, cv=10, nperm=1000, sele.type='cvc', covrt=NULL, trim=T, test.type='ht2'){
+MCMDR <- function(phes, snp.mat, K=2, cv=10, nperm=1000, sele.type='cvc', covrt=NULL, trim=TRUE, test.type='ht2'){
 
   #adjust covariant's effect for each phenotype
   if(!is.null(covrt)) {
@@ -47,12 +47,11 @@ MCMDR <- function(phes, snp.mat, K=2, cv=10, nperm=1000, sele.type='cvc', covrt=
 
   model.cons <- result$cvc
   model.sele <- result$best.pair
-  model.all.pair = result$all.pair 
-  # model.score <- result$score
-  model.scores = result$scores 
+  model.all.pair <- result$all.pair 
+  model.scores <- result$scores 
 
   best.ksnps <- snp.combs[, model.sele, drop=F]
-  ksnps = snp.combs[, model.all.pair, drop=F] 
+  ksnps <- snp.combs[, model.all.pair, drop=F] 
 
 
   # permutation test
