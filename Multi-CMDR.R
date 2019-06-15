@@ -17,7 +17,7 @@ MCMDR <- function(phes, snp.mat, K=2, cv=10, nperm=1000, sele.type='cvc', covrt=
   phes.scaled <- scale(phes)
   if (trim==T){
     clust <- FKM.noise(phes.scaled, k=2)
-    data <- cbind(clust$U, phes) 
+    data <- cbind(clust$U, phes)
     noise.clust <- matrix(1-clust$U[,1]-clust$U[,2],ncol=1)
     c <- cbind(clust$U, noise.clust)
     trim <- which(colnames(c)[max.col(c,ties.method="first")]=="")
@@ -47,11 +47,11 @@ MCMDR <- function(phes, snp.mat, K=2, cv=10, nperm=1000, sele.type='cvc', covrt=
 
   model.cons <- result$cvc
   model.sele <- result$best.pair
-  model.all.pair <- result$all.pair 
-  model.scores <- result$scores 
+  model.all.pair <- result$all.pair
+  model.scores <- result$scores
 
   best.ksnps <- snp.combs[, model.sele, drop=F]
-  ksnps <- snp.combs[, model.all.pair, drop=F] 
+  ksnps <- snp.combs[, model.all.pair, drop=F]
 
 
   # permutation test
@@ -63,24 +63,21 @@ MCMDR <- function(phes, snp.mat, K=2, cv=10, nperm=1000, sele.type='cvc', covrt=
 
     n.model <- length(model.scores)
     for (i in 1:n.model){
-      perm.pv[i] = mean(ifelse(emp_stats_null > model.scores[i], 1, 0))
+      perm.pv[i] <- mean(ifelse(emp_stats_null > model.scores[i], 1, 0))
     }
   }
 
-  # final.result <- list(best_ksnps=best.ksnps, cvc=model.cons, score=model.score, pv= perm.pv)
-
-  final.result <- list(best_ksnps=best.ksnps, 'ksnps'=ksnps,  
-                       cvc=model.cons, scores=model.scores, pv= perm.pv)
-  return(final.result)
+  return(list(best_ksnps=best.ksnps, ksnps=ksnps, cvc=model.cons, scores=model.scores, pv= perm.pv))
 }
 
 #####################################################################################################
-#### --------------------------------- subfunction of MCMDR -------------------------------- ####
+#### ----------------------------------- subfunction of MCMDR ---------------------------------- ####
 #####################################################################################################
 
-MCMDR_cv <- function (data, snp.all, K, cv=10, ratio = NULL, snp.combs, sele.type = 'cvc', test.type) {
+MCMDR_cv <- function (data, snp.all, K, cv=10, ratio = NULL, snp.combs, sele.type = 'cvc', test.type){
+
   if (is.null(ratio)){
-    ratio <- sum(data[, 1])/sum(data[, 2]) #***
+    ratio <- sum(data[, 1])/sum(data[, 2])
   }
 
   ns <- ncol(snp.combs)
@@ -113,7 +110,7 @@ MCMDR_cv <- function (data, snp.all, K, cv=10, ratio = NULL, snp.combs, sele.typ
     ta <- table(best.comb)
     cvc <- ta[order(-ta)]     ## the largest cvc
     best.pair <- as.numeric(names(ta[order(-ta)]))[1]  ## the pair gets largest cvc
-    all.pair = as.numeric(names(ta[order(-ta)])) 
+    all.pair <- as.numeric(names(ta[order(-ta)]))
   }
   if(sele.type == 'score'){
     best.pair <- which.max(test.stats)  ## the pair gives the largest test score
@@ -128,8 +125,7 @@ MCMDR_cv <- function (data, snp.all, K, cv=10, ratio = NULL, snp.combs, sele.typ
   ## Save the test score of the best model in each cv
   scores.cv = temptest.stats[best.pair, ]
 
-  return(list('cvc' = cvc, 'scores' = sele.score,
-              'best.pair' = best.pair, 'all.pair'=all.pair, 'test.stats' = test.stats))
+  return(list(cvc = cvc, scores = sele.score, best.pair = best.pair, all.pair=all.pair, test.stats = test.stats))
 }
 
 
@@ -168,27 +164,27 @@ MCMDR_cells <- function (train.ids, test.ids, snp.mat, ratio, data, test.type) {
   high.all <- NULL
   for(i in 1:cells.num){
     temp.ids <- cells.trainid[[i]]
-    if (sum(data[temp.ids, 2])==0) next 
-    if (sum(data[temp.ids, 1])/sum(data[temp.ids, 2]) >= ratio){ 
+    if (sum(data[temp.ids, 2])==0) next
+    if (sum(data[temp.ids, 1])/sum(data[temp.ids, 2]) >= ratio){
       high.all <- c(high.all, cells[[i]][, 1])
     }
   }
 
   if (test.type == 'ht2'){
-    train.stat <- cal_ss(train.ids, high.all, data[,-(1:2)]) 
+    train.stat <- cal_ss(train.ids, high.all, data[,-(1:2)])
     test.stat <- cal_ss(test.ids, high.all, data[,-(1:2)])
   }
   else if (test.type == 't'){
-    train.stat = cal_tstat(train.ids, high.all, data[,-1])
-    test.stat = cal_tstat(test.ids, high.all, data[,-1])
+    train.stat <- cal_tstat(train.ids, high.all, data[,-1])
+    test.stat <- cal_tstat(test.ids, high.all, data[,-1])
   }
 
-  return(list('train.stat' = train.stat, 'test.stat' = test.stat ))
+  return(list(train.stat = train.stat, test.stat = test.stat ))
 }
 
 
 #####################################################################################################
-#### --------------------------------- subfunction of MCMDR -------------------------------- ####
+#### ----------------------------------- subfunction of MCMDR ---------------------------------- ####
 #####################################################################################################
 
 permutation_test <- function(data, snp.all, K, nperm, cv, test.type){
@@ -199,7 +195,7 @@ permutation_test <- function(data, snp.all, K, nperm, cv, test.type){
   test.stats <- rep(0, cv)
   cvlen <- floor(n/cv)
   cc <- 1:n
-  ratio <- sum(data[, 1])/sum(data[, 2]) #***
+  ratio <- sum(data[, 1])/sum(data[, 2])
 
   run <- 0
   stats <- NULL
@@ -277,54 +273,18 @@ dire_ht2 <- function(X, Y, phes){
               "fstat" = round(Fstat, 4) ))
 }
 
-
-## calculating multivariate rank score
-cal_mvr <- function(ids, high.all, phes){
-  # library(MNM)
-  high.ids = intersect(ids, high.all)
-  low.ids = setdiff(ids, high.ids)
-
-  high.phes <- phes[high.ids, ]
-  low.phes <- phes[low.ids, ]
-  phes.new <- rbind(high.phes, low.phes)
-  group <- factor(rep(c("high","low"), c(length(high.ids), length(low.ids))))
-
-  if (length(high.ids) < 2 || length(low.ids) < 2) return(0)
-
-  stat = MNM::mv.Csample.test(phes.new, group, score="r")$statistic
-  return(stat)
-}
-
-## calculation univariate rank score
-cal_uvr <- function(ids, high.all, phes){
-
-  high.ids = intersect(ids, high.all)
-  low.ids = setdiff(ids, high.ids)
+## calculating t score
+cal_tstat <- function(ids, high.all, phes){
+  high.ids <- intersect(ids, high.all)
+  low.ids <- setdiff(ids, high.ids)
 
   high.phes <- phes[high.ids]
   low.phes <- phes[low.ids]
-  phes.new <- c(high.phes, low.phes)
-  group <- factor(rep(c("high","low"), c(length(high.ids), length(low.ids))))
-
-  if (length(high.ids) < 2 || length(low.ids) < 2) return(0)
-
-  stat = kruskal.test(phes.new, group)$statistic
-  return(stat)
-}
-
-
-## calculating t score
-cal_tstat <- function(ids, high.all, phes){
-  high.ids = intersect(ids, high.all)
-  low.ids = setdiff(ids, high.ids)
-
-  high.phes = phes[high.ids]
-  low.phes = phes[low.ids]
 
   if (length(high.ids) == 0 || length(low.ids) == 0) return(0)
   if (length(union(high.ids, low.ids)) <= 2) return(0)
 
-  stat = t.test(high.phes, low.phes, var.equal = TRUE)$statistic
+  stat <- t.test(high.phes, low.phes, var.equal = TRUE)$statistic
 
   return(abs(stat))
 }
