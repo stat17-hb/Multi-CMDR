@@ -1,10 +1,16 @@
+
+##===================================================================================================##
+## This program is based on the multi-QMDR program written by Wenbao Yu                              ##
+## You can get multi-QMDR program at https://github.com/wbaopaul/Multi-QMDR/blob/master/Multi-QMDR.R ##
+##===================================================================================================##
+
 #####################################################################################################
 #### -------------------------------------- main function -------------------------------------- ####
 #####################################################################################################
 
 MCMDR <- function(phes, snp.mat, K=2, cv=10, nperm=1000, sele.type='cvc', covrt=NULL, trim=TRUE, test.type='ht2'){
 
-  #adjust covariant's effect for each phenotype
+  # adjust covariant's effect for each phenotype
   if(!is.null(covrt)) {
     fun <- function(y){
       resid <- lm(y ~ covrt)$residuals
