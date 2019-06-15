@@ -5,6 +5,7 @@ Detect gene-gene interaction/epistasis by using multivariate phenotypes and MDR
 All source codes were listed in file "Multi-CMDR.R" for implemeting Multi-CMDR 
 
 ## Citation
+Hyein Kim, Hoe-Bin Jeong, Hye-Young Jung, Taesung Park, Mira Park, Cluster-based multifactor dimensionality reduction to identify genetic interactions for multivariate quantitative phenotypes
 
 ## Example 
 Try _run_example.R_ to get a quick start, and an example data was provided too
