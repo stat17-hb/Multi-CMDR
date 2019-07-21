@@ -5,7 +5,7 @@ Cluster-based multifactor dimensionality reduction to identify genetic interacti
 All source codes were listed in file "Multi-CMDR.R" for implemeting Multi-CMDR 
 
 ## Citation
-Hyein Kim, Hoe-Bin Jeong, Hye-Young Jung, Taesung Park, Mira Park. "Cluster-based multifactor dimensionality reduction to identify genetic interactions for multivariate quantitative phenotypes"
+Hyein Kim, Hoe-Bin Jeong, Hye-Young Jung, Taesung Park, Mira Park, "Multivariate Cluster-Based Multifactor Dimensionality Reduction to Identify Genetic Interactions for Multiple Quantitative Phenotypes", BioMed Research International 2019(l):1-10, DOI: 10.1155/2019/4578983, 2019.
 
 ## Example 
 Try _run_example.R_ to get a quick start
